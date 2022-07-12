@@ -1,7 +1,7 @@
 import { Entity,Column,PrimaryGeneratedColumn } from "typeorm";
 import {Max,IsEmail, Min} from 'class-validator'
 @Entity()
-class LoginEntity{
+class User{
     @PrimaryGeneratedColumn()
     "id":number
     @Column()
@@ -10,4 +10,4 @@ class LoginEntity{
     @Column()
     "password":string
 }
-export default LoginEntity
+export default User

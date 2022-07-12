@@ -1,0 +1,14 @@
+1. Proper commit message
+2. Maintain .env attributes in proper format <.env.example>
+3. Remove unused log 
+4. Review code once before commiting
+5. Don't put status code in response data
+6. Every response must have certain format 
+7. Proper variable/entity name
+8. Don't make static member functions
+
+
+
+!
+TSOA
+Swagger Docs

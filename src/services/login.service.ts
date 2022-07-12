@@ -1,37 +1,34 @@
-import { json } from "stream/consumers";
 import dataSource from "../database/config";
-import LoginEntity from "../entity/login.entity";
-class Service{
-    static  LoginUser=async(userData:Object)=>{
-        //console.log('i am in service')
-        //console.log(userData)
-        type ObjectKey = keyof typeof userData;
-        const myEmail = 'email' as ObjectKey;
-        const mypassword='password' as ObjectKey;
-        //console.log(userData[myEmail]);
-        //console.log(userData[mypassword])
-         const emails=userData[myEmail]
-         const password=userData[mypassword]
-        //const data={userData}
-        //console.log(emails.toString())
-        //console.log(email)
-        //console.log(Password)
-        //const logEntitys=new LoginEntity()
-        const loginEntity=await dataSource.getRepository(LoginEntity)
-        const findingData=await loginEntity.findBy({email:emails.toString()})
-        const passwordData=findingData[0].password
-         console.log(passwordData)
-         // console.log(findingData.LoginEntity.email)
-        //console.log(findingData.email)
-        // if(findingData)  {
-            
-        // } else{
-
-        // }
-       // return findingData.email
-     //   
+import User from "../entity/login.entity";
+import jwt from "jsonwebtoken";
+import 'dotenv/config'
+import { json } from "stream/consumers";
+const ACCESS_TOKEN = "kjwfrgifyugjhfgeyfuyfgugfu";
+class LoginService {
+  static LoginUser = async (userData) => {
+    try {
+      const userRepo = await dataSource.getRepository(User);
+      const findingData = await userRepo.findOne({
+        where: {
+          email: userData.email,
+        },
+      });
+    
+       if (findingData) {
+         if (findingData.email === userData.email) {
+           const token = jwt.sign(userData,process.env.ACCESS_TOKEN||ACCESS_TOKEN, {
+             expiresIn: "1d",
+           });
+           return token;
+         }
+       }
         
-    }
-}
+      
 
-export default Service;
+    }
+     catch (error) {
+      return error;
+    }
+  };
+}
+export default LoginService;

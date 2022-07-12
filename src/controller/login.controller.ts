@@ -1,15 +1,25 @@
 import {Request,Response} from 'express'
-import Service from "../services/login.service"
+import LoginService from "../services/login.service"
 class LoginController{
    static find=async(req:Request,res:Response)=>{
-      const userData:Object=req.body
-       const work=await Service.LoginUser(userData)
-       //console.log(work)
+      try{
+        const userData=req.body
+       const work=await LoginService.LoginUser(userData)
+       
+       if (work){
+         res.status(200).json({
+            message:"Token Generated",
+            token:work
+
+         })
+       }
+       
+      
+}catch(error){
     res.json({
-      message:'Data Found',
-      status:200,
-      data:work
-   })
+      success:false
+    }).status(500)
+}
    
    }
 }
